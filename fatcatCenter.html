@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        * {
+            margin: 0
+        }
+
+        body {
+            background-color: azure;
+        }
+
+        div {
+            margin: 0;
+            position: absolute;
+            width: 560px;
+            height: 420px;
+            border: 3px solid black;
+            box-shadow: 0px 0px 10px black;
+            border-radius: 5px;
+            background-color: white;
+            overflow: hidden;
+        }
+
+        img {
+            position: absolute;
+            width: 800px;
+            height: 600px;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <p style="text-align: center; margin-top: 50px;">試著調整或移動視窗吧！</p>
+    <div>
+        <img src="./Images/fatcat.jpg" alt="">
+    </div>
+    <script>
+        $(function () {
+            let intervalID;
+            $(window).on("resize mouseover", function () {
+                scrW = screen.width;
+                scrH = screen.height;
+                windH = window.outerHeight - window.innerHeight;
+                winX = window.screenX;
+                winY = window.screenY;
+                imgW = $("img").width();
+                imgH = $("img").height();
+
+                divX = (window.innerWidth - 560) / 2;
+                divY = (window.innerHeight - 420) / 2;
+                centerX = (scrW - imgW) / 2 - winX - divX;
+                centerY = (scrH - imgH) / 2 - windH - winY - divY;
+
+                $("img").css({ left: centerX, top: centerY });
+                $("div").css({ left: divX, top: divY });
+
+            }).on("mouseout", function () {
+                intervalID = setInterval(function () {
+                    $(window).trigger("resize");
+                }, 1)
+            }).on("mouseover", function () {
+                clearInterval(intervalID);
+            }).trigger("resize");
+
+        });
+    </script>
+</body>
+
+</html>
